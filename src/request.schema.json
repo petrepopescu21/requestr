@@ -1,0 +1,137 @@
+{
+    "$id": "someid",
+    "type": "object",
+    "properties": {
+        "globalParams": {"$ref":"#/definitions/globalParams", "title": "Global Parameters"},
+        "vmArray": {
+            "title": "Virtual Machines",
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/vm"
+            }
+        }
+    },
+    "definitions": {
+        "globalParams": {
+            "type": "object",
+            "required": true,
+            "properties": {
+                "appname": {
+                    "type": "string"
+                },
+                "project": {
+                    "type": "string"
+                },
+                "appcode": {
+                    "type": "string",
+                    "pattern": "^[A-Z]{4}$",
+                    "errorMessage": {
+                        "pattern": "Appcode hould be an uppercase 4 letter string"
+                    }
+                },
+                "environment": {
+                    "type": "string",
+                    "enum": [
+                        "production",
+                        "development",
+                        "uat",
+                        "test",
+                        "staging"
+                    ],
+                    "errorMessage": {
+                        "enum": "Environment should be one of the following values: production, staging, development, uat, test"
+                    }
+                },
+                "timezone": {
+                    "type": "integer",
+                    "multipleOf": 0.5,
+                    "minimum": -12,
+                    "maximum": 12,
+                    "errorMessages": {
+                        "_": "Please enter a valid timezone"
+                    }
+                },
+                "entity": {
+                    "type": "string",
+                    "pattern": "^[a-z]{3}",
+                    "errorMessages": {
+                        "pattern": "Entity should be a lowercase 3 letter string "
+                    }
+                }
+            }
+        },
+        "vm": {
+            "type": "object",
+            "title": "VM",
+            "properties": {
+                "function": {
+                    "type": "string"
+                },
+                "typecode": {
+                    "type": "string",
+                    "pattern": "^[a-z]{3}",
+                    "errorMessages": {
+                        "pattern": "Typecode should be a lowercase 3 letter string "
+                    }
+                },
+                "os": {
+                    "type": "string",
+                    "enum": [
+                        "WS2012R2",
+                        "WS2016",
+                        "RedHat",
+                        "SQLSRV2016SP2DEV",
+                        "SQLSRV2016SP2STD",
+                        "SQLSRV2016SP2ENT"
+                    ]
+                },
+                "size": {
+                    "type": "string",
+                    "enum": [
+                        "Standard_B2s",
+                        "Standard_B2ms",
+                        "Standard_B4ms",
+                        "Standard_B8ms",
+                        "Standard_F2s_v2",
+                        "Standard_F4s_v2",
+                        "Standard_F8s_v2",
+                        "Standard_F16s_v2",
+                        "Standard_E2s_v3",
+                        "Standard_E4s_v3",
+                        "Standard_E8s_v3",
+                        "Standard_E16s_v3",
+                        "Standard_D2s_v3",
+                        "Standard_D4s_v3",
+                        "Standard_D8s_v3",
+                        "Standard_D16s_v3",
+                        "Standard_F2s",
+                        "Standard_F4s",
+                        "Standard_F8s",
+                        "Standard_F16s"
+                    ]
+                },
+                "diskArray": {
+                    "title": "Data Disks",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/vm/definitions/vmDisk"
+                    },
+                    "minItems": 0
+                }
+            },
+            "definitions": {
+                "vmDisk": {
+                    "$id": "#vmDisk",
+                    "type": "object",
+                    "properties": {
+                        "size": {
+                            "title": "Disk Size",
+                            "type": "integer",
+                            "enum": [128,256,512,1024,2048,4096,8192]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

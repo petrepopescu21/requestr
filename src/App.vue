@@ -1,31 +1,47 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar app class="warning">
+      <v-toolbar-title class="headline text-uppercase">
+        <span>ITEC</span>
+        <span class="font-weight-bold">REQUESTR</span>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn @click="$vuetify.theme.dark = !$vuetify.theme.dark">
+        <v-icon>wb_incandescent</v-icon>
+        <span>Change Theme</span>
+      </v-btn>
+    </v-app-bar>
+
+    <v-content>
+      <v-container style="max-width: 800px">
+        <h1>Hello, {{name}}</h1>
+        <router-view />
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<script>
+import axios from "axios";
+export default {
+  name: "App",
+  data: () => ({
+    name: "Random Citizen"
+  }),
+  mounted() {
+    axios
+      .get("/.auth/me")
+      .then(res => {
+        this.name = res.data[0].user_claims.filter(claim => {
+          return (
+            claim.typ ==
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
+          );
+        })[0].val;
+      })
+      .catch(err => {
+        //do nothing for local use
+      });
+  }
+};
+</script>
