@@ -14,7 +14,7 @@
     "json-schema-ref-parser": "^7.1.0",
     "markdown-it": "^9.1.0",
     "match-all": "^1.2.5",
-    "property-expr": "^1.5.1",
+    "property-expr": "^2.0.3",
     "vue": "^2.6.10",
     "vue-async-computed": "^3.7.0",
     "vue-color": "^2.7.0",
